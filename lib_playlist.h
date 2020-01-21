@@ -1,0 +1,6 @@
+#ifndef INC_6_LIB_PLAYLIST_H
+#define INC_6_LIB_PLAYLIST_H
+
+
+
+#endif //INC_6_LIB_PLAYLIST_H
