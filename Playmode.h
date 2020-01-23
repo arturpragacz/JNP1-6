@@ -4,30 +4,14 @@
 
 #ifndef INC_6_PLAYMODE_H
 #define INC_6_PLAYMODE_H
-
+#include "Playable.h"
+#include <memory>
+#include <vector>
 
 class Playmode {
 public:
-	using ListType = std::vector<std::shared_ptr<const Playable>>;
-	virtual ListType arrange(ListType list) = 0;
-};
+    virtual std::vector<std::list<std::shared_ptr<Playable>>::iterator> permutation(std::vector<std::list<std::shared_ptr<Playable>>::iterator> elements) {std::cout<<"Dupa"<<std::endl;return elements;}
 
-class SequencePlaymode : public Playmode {
-	ListType arrange(ListType list) {
-		return list;
-	}
-};
-
-class ShufflePlaymode : public Playmode {
-	ListType arrange(ListType list) {
-		return list;//TODO
-	}
-};
-
-class OddEvenPlaymode : public Playmode {
-	ListType arrange(ListType list) {
-		return list;//TODO
-	}
 };
 
 #endif //INC_6_PLAYMODE_H

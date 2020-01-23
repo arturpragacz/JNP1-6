@@ -1,14 +1,16 @@
-//#ifndef INC_6_PLAYABLE_H
-//#define INC_6_PLAYABLE_H
-
-#include "Playlist.h"
-class Playlist;
+#ifndef INC_6_PLAYABLE_H
+#define INC_6_PLAYABLE_H
+#include <list>
+#include <memory>
+#include <iostream>
 
 class Playable {
-	Playlist* parent;
 public:
-	virtual void play() const = 0;
+    virtual std::list<std::shared_ptr<Playable>> &get_children() = 0;
+
+public:
+    virtual void play() {std::cout<<"EMPTY!"<<std::endl;}
 };
 
 
-//#endif //INC_6_PLAYABLE_H
+#endif //INC_6_PLAYABLE_H
