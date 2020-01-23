@@ -1,6 +1,8 @@
 #ifndef INC_6_MOVIE_H
 #define INC_6_MOVIE_H
 
+#include <utility>
+
 #include "Playable.h"
 #include "Track.h"
 
@@ -9,8 +11,8 @@ private:
 	std::string name;
 	std::string year;
 	std::string data;
+	static bool registered;
 
-private:
 	std::string rot13(const std::string& s) {
 		std::string result;
 		for (char i : s) {
@@ -24,14 +26,22 @@ private:
 		return result;
 	}
 
+	Movie(std::string name, std::string year, std::string data) :
+			name(std::move(name)), year(std::move(year)), data(std::move(data)) {}
+
 public:
-	Movie(const std::string& name, const std::string& year, const std::string& data) {
-		if (!std::regex_match(data, std::regex(
+	static std::string get_type() {
+		return "video";
+	}
+
+	static std::shared_ptr<Track> create(const File& file) {//TODO: check year
+		if (!file.contains("title") || !file.contains("year"))
+			throw CorruptedContentException();
+		if (!std::regex_match(file.get_data(), std::regex(
 				"[ qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890\\,\\.\\!\\?\\'\\:\\;\\-]+")))
 			throw CorruptedContentException();
-		this->name = name;
-		this->year = year;//TODO: check year
-		this->data = data;
+		std::shared_ptr<Movie> movie{new Movie{file.get_token("title"), file.get_token("year"), file.get_data()}};
+		return std::static_pointer_cast<Track>(movie);
 	}
 
 	/*

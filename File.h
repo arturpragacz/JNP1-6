@@ -17,23 +17,23 @@ public:
 
 	explicit File(const std::string& data);
 
-	bool contains(const std::string& key) {
+	bool contains(const std::string& key) const {
 		return tokens.find(key) != tokens.end();
 	}
 
-	std::string get_token(const std::string& key) {
-		return tokens[key];
+	std::string get_token(const std::string& key) const {
+		return tokens.at(key);
 	}
 
-	std::string get_type() {
+	std::string get_type() const {
 		return type;
 	}
 
-	std::string get_data() {
+	std::string get_data() const {
 		return data;
 	}
 
-	bool empty() {
+	bool empty() const {
 		return tokens.empty();
 	}
 };

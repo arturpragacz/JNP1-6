@@ -14,7 +14,7 @@ public:
 	 *  Tworzy i zwraca utwór na podstawie pliku; utwór może być odtworzony
 	 *  samodzielnie albo dodany do listy odtwarzania;
 	 */
-	std::shared_ptr<Playable> openFile(File file);
+	std::shared_ptr<Playable> openFile(const File& file);
 
 	/*
 	 *  Tworzy i zwraca listę odtwarzania o podanej nazwie wraz
