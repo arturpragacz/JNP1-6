@@ -8,45 +8,43 @@
 class Playlist : public Playable {
 
 private:
-    std::string name;
-    std::shared_ptr<Playmode> mode;
-    std::list<std::shared_ptr<Playable> > play_list;
+	std::string name;
+	std::shared_ptr<Playmode> mode;
+	std::list<std::shared_ptr<Playable> > play_list;
 
 private:
-    bool contains(std::shared_ptr<Playable> other);
+	bool contains(const std::shared_ptr<Playable>& other);
 
 public:
-    Playlist(std::string& namee) {
-        name = namee;
-    }
-
-	/*
-	 *  Dodaje element na koniec listy odtwarzania
-	 */
-	void add(std::shared_ptr<Playable> element);
-
-    void add(std::shared_ptr<Track> element) {
-        add(std::dynamic_pointer_cast<Playable>(element));
-	}
-
-	void add(std::shared_ptr<Playlist> element) {
-        add(std::dynamic_pointer_cast<Playable>(element));
+	explicit Playlist(std::string& name) {
+		this->name = name;
 	}
 
 	/*
-	 *  Dodaje element na określonej pozycji w liście odtwarzania (pozycje są numerowane od 0).
+	 * Dodaje element na koniec listy odtwarzania
 	 */
-	void add(std::shared_ptr<Playable> element, size_t position);
+	void add(const std::shared_ptr<Playable>& element);
 
-	void add(std::shared_ptr<Playlist> element, size_t position) {
-        add(std::dynamic_pointer_cast<Playable>(element), position);
+	template<typename T>
+	void add(const std::shared_ptr<T>& element) {
+		add(std::static_pointer_cast<Playable>(element));
+	}
+
+	/*
+	 * Dodaje element na określonej pozycji w liście odtwarzania (pozycje są numerowane od 0).
+	 */
+	void add(const std::shared_ptr<Playable>& element, size_t position);
+
+	template<typename T>
+	void add(const std::shared_ptr<T>& element, size_t position) {
+		add(std::static_pointer_cast<Playable>(element), position);
 	}
 
 	/*
 	 *  Usuwa ostatni element z listy odtwarzania.
 	 */
 	void remove() {
-        remove(play_list.size() - 1);
+		remove(play_list.size() - 1);
 	}
 
 	/*
@@ -59,8 +57,8 @@ public:
 	 *  zostać utworzony za pomocą funkcji createSequenceMode(), createShuffleMode(seed),
 	 *  createOddEvenMode().
 	 */
-	void setMode(std::shared_ptr<Playmode> modee) {
-        mode = modee;
+	void setMode(std::shared_ptr<Playmode> mode) {
+		this->mode = mode;
 	}
 
 	/*
@@ -71,11 +69,10 @@ public:
            (c) nieparzyste/parzyste - najpierw wszystkie nieparzyste, a następnie wszystkie
                parzyste elementy listy odtwarzania.
 	 */
-	virtual void play();
+	void play() override;
 
-	virtual std::list<std::shared_ptr<Playable>> &get_children()
-	{
-        return play_list;
+	std::list<std::shared_ptr<Playable>>& get_children() override {
+		return play_list;
 	}
 };
 

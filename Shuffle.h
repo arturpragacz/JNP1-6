@@ -1,24 +1,26 @@
-#ifndef H_SHUFFLE_MODE
-#define H_SHUFFLE_MODE
+#ifndef INC_6_SHUFFLE_H
+#define INC_6_SHUFFLE_H
+
 #include <random>
 
-class ShuffleMode : public Playmode{
+class ShuffleMode : public Playmode {
 private:
-    int seed;
+	int seed;
 
 public:
-    ShuffleMode(int seedd) {
-        seed = seedd;
-    }
+	explicit ShuffleMode(int seed) {
+		this->seed = seed;
+	}
 
-    virtual std::vector<std::list<std::shared_ptr<Playable>>::iterator> permutation(std::vector<std::list<std::shared_ptr<Playable>>::iterator> elements) {
-        std::shuffle(elements.begin(), elements.end(), std::default_random_engine(seed));
-        return elements;
-    }
+	std::vector<std::list<std::shared_ptr<Playable>>::iterator>
+	permutation(std::vector<std::list<std::shared_ptr<Playable>>::iterator> elements) override {
+		std::shuffle(elements.begin(), elements.end(), std::default_random_engine(seed));
+		return elements;
+	}
 };
 
 std::shared_ptr<Playmode> createShuffleMode(int seed) {
-    return std::dynamic_pointer_cast<Playmode>(std::make_shared<ShuffleMode>(ShuffleMode(seed)));
+	return std::static_pointer_cast<Playmode>(std::make_shared<ShuffleMode>(ShuffleMode(seed)));
 }
 
-#endif // H_SHUFFLE_MODE
+#endif // INC_6_SHUFFLE_H
