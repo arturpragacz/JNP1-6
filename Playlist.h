@@ -1,36 +1,45 @@
 #ifndef INC_6_PLAYLIST_H
 #define INC_6_PLAYLIST_H
 
+#include <utility>
+#include <vector>
+#include <memory>
+#include <iostream>
 #include "Playable.h"
 #include "Playmode.h"
 
 class Playlist : public Playable {
+private:
+	std::string name;
+	std::vector<std::shared_ptr<const Playable>> list;
+	std::shared_ptr<Playmode> playmode;
+public:
 	/*
 	 *  Dodaje element na koniec listy odtwarzania
 	 */
-	void add(Playable element) {
-
+	void add(const std::shared_ptr<const Playable>& element) {
+		list.push_back(element);//TODO: exception?
 	}
 
 	/*
 	 *  Dodaje element na określonej pozycji w liście odtwarzania (pozycje są numerowane od 0).
 	 */
-	void add(Playable element, unsigned int position) {
-
+	void add(const std::shared_ptr<const Playable>& element, unsigned int position) {
+		list.insert(list.begin() + position, element);//TODO: exception
 	}
 
 	/*
 	 *  Usuwa ostatni element z listy odtwarzania.
 	 */
 	void remove() {
-
+		list.pop_back();//TODO: exception
 	}
 
 	/*
 	 *  Usuwa element z określonej pozycji listy odtwarzania.
 	 */
 	void remove(unsigned int position) {
-
+		list.erase(list.begin() + position);//TODO: exception
 	}
 
 	/*
@@ -38,8 +47,8 @@ class Playlist : public Playable {
 	 *  zostać utworzony za pomocą funkcji createSequenceMode(), createShuffleMode(seed),
 	 *  createOddEvenMode().
 	 */
-	void setMode(Playmode mode) {
-
+	void setMode(const std::shared_ptr<Playmode>& mode) {
+		this->playmode = mode;
 	}
 
 	/*
@@ -50,8 +59,11 @@ class Playlist : public Playable {
            (c) nieparzyste/parzyste - najpierw wszystkie nieparzyste, a następnie wszystkie
                parzyste elementy listy odtwarzania.
 	 */
-	virtual void play() {
-
+	virtual void play() const override {
+		std::cout << "Playlist [" << name << "]\n";
+		auto arrangedList = playmode->arrange(list);
+		for (auto& playable : arrangedList)
+			playable->play();
 	}
 };
 

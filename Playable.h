@@ -6,6 +6,8 @@ class Playlist;
 
 class Playable {
 	Playlist* parent;
+public:
+	virtual void play() const = 0;
 };
 
 
