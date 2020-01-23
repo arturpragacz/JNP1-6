@@ -12,15 +12,14 @@ public:
 		this->seed = seed;
 	}
 
-	std::vector<std::list<std::shared_ptr<Playable>>::iterator>
-	permutation(std::vector<std::list<std::shared_ptr<Playable>>::iterator> elements) override {
+	VectorType permutation(VectorType elements) override {
 		std::shuffle(elements.begin(), elements.end(), std::default_random_engine(seed));
 		return elements;
 	}
 };
 
-std::shared_ptr<Playmode> createShuffleMode(int seed) {
-	return std::static_pointer_cast<Playmode>(std::make_shared<ShuffleMode>(ShuffleMode(seed)));
+inline std::shared_ptr<Playmode> createShuffleMode(int seed) {
+	return std::static_pointer_cast<Playmode>(std::make_shared<ShuffleMode>(seed));
 }
 
 #endif // INC_6_SHUFFLE_H

@@ -65,12 +65,11 @@ void Playlist::remove(size_t position) {
 
 void Playlist::play() {
 	std::cout << "Playlist [" + name + "]" << std::endl;
-	std::vector<std::list<std::shared_ptr<Playable>>::iterator> indexes;
-	for (auto i = play_list.begin(); i != play_list.end(); ++i) {
-		indexes.push_back(i);
+	std::vector<const std::shared_ptr<Playable>*> indexes;
+	for (auto& i : play_list) {
+		indexes.push_back(&i);
 	}
-	if (mode != nullptr)
-		indexes = mode->permutation(indexes);
+	indexes = mode->permutation(indexes);
 	for (auto it : indexes) {
 		(*it)->play();
 	}

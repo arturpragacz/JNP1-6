@@ -1,7 +1,7 @@
 #include "File.h"
 #include "Exceptions.h"
 
-File::File(std::string data) {
+File::File(const std::string& data) {
 	size_t i = 0;
 	for (; i < data.length() && data[i] != '|'; i++) {
 		type += data[i];

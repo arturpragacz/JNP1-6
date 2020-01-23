@@ -4,6 +4,7 @@
 #include "Playable.h"
 #include "Playmode.h"
 #include "Track.h"
+#include "Sequence.h"
 
 class Playlist : public Playable {
 
@@ -18,10 +19,11 @@ private:
 public:
 	explicit Playlist(std::string& name) {
 		this->name = name;
+		this->mode = createSequenceMode();
 	}
 
 	/*
-	 * Dodaje element na koniec listy odtwarzania
+	 *  Dodaje element na koniec listy odtwarzania.
 	 */
 	void add(const std::shared_ptr<Playable>& element);
 
@@ -31,7 +33,7 @@ public:
 	}
 
 	/*
-	 * Dodaje element na określonej pozycji w liście odtwarzania (pozycje są numerowane od 0).
+	 *  Dodaje element na określonej pozycji w liście odtwarzania (pozycje są numerowane od 0).
 	 */
 	void add(const std::shared_ptr<Playable>& element, size_t position);
 

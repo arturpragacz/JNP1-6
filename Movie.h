@@ -25,19 +25,19 @@ private:
 	}
 
 public:
-	Movie(std::string name, std::string year, std::string data) {
+	Movie(const std::string& name, const std::string& year, const std::string& data) {
 		if (!std::regex_match(data, std::regex(
 				"[ qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890\\,\\.\\!\\?\\'\\:\\;\\-]+")))
 			throw CorruptedContentException();
 		this->name = name;
-		this->year = year;
+		this->year = year;//TODO: check year
 		this->data = data;
 	}
 
 	/*
 	 *  Odtworzenie filmu polega na wypisaniu na standardowe wyjście napisu "Movie",
-	tytułu filmu, roku produkcji oraz treści; treść filmów zakodowana jest w ROT13 i może
-	zawierać tylko znaki alfanumeryczne, białe znaki oraz następujące znaki specjalne: ,.!?':;-.
+	 *  tytułu filmu, roku produkcji oraz treści; treść filmów zakodowana jest w ROT13 i może
+	 *  zawierać tylko znaki alfanumeryczne, białe znaki oraz następujące znaki specjalne: ,.!?':;-.
 	 */
 	void play() override {
 		std::cout << "Movie [" + name + ", " + year + "]: " + rot13(data) << std::endl;

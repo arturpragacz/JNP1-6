@@ -7,8 +7,8 @@
 
 class Playmode {
 public:
-	virtual std::vector<std::list<std::shared_ptr<Playable>>::iterator>
-	permutation(std::vector<std::list<std::shared_ptr<Playable>>::iterator> elements) = 0;
+	using VectorType = std::vector<const std::shared_ptr<Playable>*>;
+	virtual VectorType permutation(VectorType elements) = 0;
 };
 
 #endif //INC_6_PLAYMODE_H

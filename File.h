@@ -15,7 +15,7 @@ public:
 	explicit File(const char* data) :
 			File(std::string(data)) {}
 
-	explicit File(std::string data);
+	explicit File(const std::string& data);
 
 	bool contains(const std::string& key) {
 		return tokens.find(key) != tokens.end();
