@@ -20,7 +20,6 @@ bool Playlist::contains(const std::shared_ptr<Playable>& other) {
 				q.push(ptr);
 			}
 		}
-		std::cout << std::endl;
 	}
 	return false;
 }

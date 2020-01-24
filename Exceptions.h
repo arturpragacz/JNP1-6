@@ -19,7 +19,7 @@ class UnsupportedTypeException : public PlayerException {
 	}
 };
 
-class CorruptedTitleException : public PlayerException {
+class CorruptedFileException : public PlayerException {
 	const char* what() const noexcept override {
 		return "corrupt file";
 	}

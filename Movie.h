@@ -9,7 +9,7 @@
 class Movie : public Track {
 private:
 	std::string name;
-	std::string year;
+	int year;
 	std::string data;
 	static bool registered;
 
@@ -26,7 +26,7 @@ private:
 		return result;
 	}
 
-	Movie(std::string name, std::string year, std::string data) :
+	Movie(std::string name, int year, std::string data) :
 			name(std::move(name)), year(std::move(year)), data(std::move(data)) {}
 
 public:
@@ -34,13 +34,22 @@ public:
 		return "video";
 	}
 
-	static std::shared_ptr<Track> create(const File& file) {//TODO: check year
+	static std::shared_ptr<Track> create(const File& file) {
 		if (!file.contains("title") || !file.contains("year"))
 			throw CorruptedContentException();
+		int year = 0;
+		try {
+			year = stoi(file.get_token("year"));
+		}
+		catch (...) {
+			throw CorruptedFileException();
+		}
+		if (year > 2100 || year < 1800)
+			throw CorruptedFileException();
 		if (!std::regex_match(file.get_data(), std::regex(
 				"[ qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890\\,\\.\\!\\?\\'\\:\\;\\-]+")))
 			throw CorruptedContentException();
-		std::shared_ptr<Movie> movie{new Movie{file.get_token("title"), file.get_token("year"), file.get_data()}};
+		std::shared_ptr<Movie> movie{new Movie{file.get_token("title"), year, file.get_data()}};
 		return std::static_pointer_cast<Track>(movie);
 	}
 
@@ -50,7 +59,7 @@ public:
 	 *  zawierać tylko znaki alfanumeryczne, białe znaki oraz następujące znaki specjalne: ,.!?':;-.
 	 */
 	void play() override {
-		std::cout << "Movie [" + name + ", " + year + "]: " + rot13(data) << std::endl;
+		std::cout << "Movie [" + name + ", " << year << "]: " + rot13(data) << std::endl;
 	}
 };
 

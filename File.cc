@@ -3,11 +3,13 @@
 
 File::File(const std::string& data) {
 	size_t i = 0;
-	for (; i < data.length() && data[i] != '|'; i++) {
+	for (; i < data.length() && data[i] != '|'; ++i) {
 		type += data[i];
 	}
+	if (i == data.length())
+		throw CorruptedFileException();
 	i++;
-	for (; i < data.length(); i++) {
+	for (; i < data.length(); ++i) {
 		std::string buffer;
 		std::string buffer2;
 		while (data[i] != ':' && data[i] != '|' && i < data.length()) {
@@ -17,17 +19,15 @@ File::File(const std::string& data) {
 		if (i >= data.length()) {
 			this->data = buffer;
 		}
-		else {
-			if (data[i] == ':') {
+		else if (data[i] == ':') {
+			i++;
+			while (i < data.length() && data[i] != '|') {
+				buffer2 += data[i];
 				i++;
-				while (i < data.length() && data[i] != '|') {
-					buffer2 += data[i];
-					i++;
-				}
 			}
-			else
-				throw CorruptedContentException();
 			tokens[buffer] = buffer2;
 		}
+		else
+			throw CorruptedFileException();
 	}
 }

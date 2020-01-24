@@ -3,8 +3,6 @@
 #include "TrackFactory.h"
 
 std::shared_ptr<Playable> Player::openFile(const File& file) {
-	if (file.empty())
-		throw CorruptedTitleException();
 	std::shared_ptr<Track> track = TrackFactory::create(file);
 	if (!track)
 		throw UnsupportedTypeException();
